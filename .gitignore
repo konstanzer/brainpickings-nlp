@@ -1,5 +1,7 @@
 #Brainpickings.org project
-pages/
+data/
+NLP/
+misc/
 .DS_Store
 
 # Byte-compiled / optimized / DLL files
