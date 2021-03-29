@@ -57,40 +57,99 @@ print("Over that time, she has published an article every " + str(round(4959*24/
 283910 + 338430 + 380770 + 390050 + 482850 + 502860 + 400055 + 391500
 
 
-words = dict(Bible=783000, Proust=1270000, Martin=1740000, Gabaldon=3170000, Popova=5080000)
-ax =sns.barplot(x=list(words.keys()), y=list(words.values()), palette="mako")
-ax.set(ylabel='total words (millions)');
+palette = "autumn"
+f, ax = plt.subplots(figsize=(13, 7))
+sns.set(font_scale=2)
+words = dict(KJV_Bible=783000, Search_of_Lost_Time=1270000, Game_of_Thrones=1740000, Outlander=3170000, BrainPickings=5080000)
+ax =sns.barplot(y=list(words.keys()), x=list(words.values()), palette=palette)
+ax.set(xlabel='total words in millions', title="Word counts of large literary works")
 
 
-year_counts = df.date.groupby(df.date.dt.year).agg("count")
+year_article_counts = df.date.groupby(df.date.dt.year).agg("count")
+year_article_counts
 
 
-ax = sns.barplot(x=year_counts.index, y=year_counts.values, color="yellow")
-ax.set(xlabel='year', ylabel='articles published')
+f, ax = plt.subplots(figsize=(13, 7))
+sns.set(font_scale=2)
+#ax = sns.barplot(x=year_word_counts.index, y=year_word_counts.values, color="lime")
+ax = sns.barplot(x=year_article_counts.index,y=year_article_counts.values, color="green")
+ax.set(xlabel='year', ylabel='articles published', title="Total articles published by year")
 plt.xticks(rotation=34);
 
 
-# Create Documents
-documents = df['content'][:100] #first 
+year_word_counts = df.words.groupby(df.date.dt.year).agg("sum")
+year_word_counts
 
 
-documents[33]
+f, ax = plt.subplots(figsize=(13, 7))
+sns.set(font_scale=2)
+ax = sns.barplot(x=year_word_counts.index,
+                 y=year_word_counts.values, color="lime")
+ax.set(xlabel='year', ylabel='words published', title="Total words published by year")
+plt.xticks(rotation=34);
 
 
-# Set Stop Words
-stop = set(stopwords.words('english'))
-# Set Stop Punctuations
-puncs = set(string.punctuation)
-# Merge Stops
-full_stop = stop.union(puncs)
-# full_stop
+f, ax = plt.subplots(figsize=(13, 7))
+sns.set(font_scale=2)
+year_article_length = round(year_word_counts/year_article_counts)
+ax = sns.barplot(x=year_article_length.index,
+                 y=year_article_length.values, color="green")
+ax.set(xlabel='year', ylabel='article length in words', title="Avg. article length by year")
+plt.xticks(rotation=34);
 
 
-# Tokenize Words from Documents
-tokens = [word_tokenize(doc.lower()) for doc in documents]
+#create a tag dictionary
+tags = str()
+for tag in df.tags: tags += tag
+tag_dict = dict()
+for tag in tags.split():
+    tag = tag.replace(",","")
+    if tag in tag_dict:
+        tag_dict[tag] += 1
+    else:
+        tag_dict[tag] = 1
 
-# Filter each token for stop words
-#doc_filter = [filter_tokens(token, full_stop) for token in tokens]
+
+from heapq import nlargest
+#top 22 tags
+N=22
+res = nlargest(N, tag_dict, key=tag_dict.get)
+top_tags = dict()
+for r in res:
+    top_tags[r] = tag_dict[r]
+top_tags
+
+
+#sns.set_theme(style="whitegrid")
+f, ax = plt.subplots(figsize=(15, 9))
+sns.set(font_scale=2)
+ax =sns.barplot(y=list(top_tags.keys()),
+                x=list(top_tags.values()), palette=palette)
+ax.set(xlabel='number of articles with tag', title="Tags occurring 300+ times (2007-present)");
+plt.xticks(rotation=90);
+
+
+#the corpus...
+documents = df.title + df.content
+
+
+vectorizer = CountVectorizer(strip_accents="unicode", analyzer="word", min_df=1, stop_words=None)
+X = vectorizer.fit_transform(documents)
+vocabulary = vectorizer.get_feature_names()
+
+
+vocab_cleaned = list()
+for word in vocabulary:
+    if all(c.isalpha() for c in word):
+        vocab_cleaned.append(word)  
+len(vocab_cleaned) #not all of these are words
+
+
+import enchant
+help(enchant)
+
+
+analyze = vectorizer.build_analyzer()
 
 
 porter = PorterStemmer()
