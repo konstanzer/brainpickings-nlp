@@ -45,7 +45,9 @@ def extract_articles(data, soup, ix):
 		for t in text:
 			content += t + " "
 
-		words = len(title.split()) + len(content.split())
+		title_len = sum(1 for word in title.split() if any(c.isalpha() for c in word))
+		content_len = sum(1 for word in content.split() if any(c.isalpha() for c in word))
+		words = title_len + content_len
 		
 		data.append(dict(index=index, title=title, url=url, date=date,
 							tags=tags, words=words, content=content))
@@ -66,6 +68,7 @@ def article_loader(page_count):
 		i, data = extract_articles(data, soup, ix)
 		ix+=i
 	df = pd.DataFrame(data)
+	df = df.sort_values("index")
 	df.to_csv('data/articles.csv', index=False)
 
 

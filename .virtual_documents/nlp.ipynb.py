@@ -30,21 +30,51 @@ from nltk.stem.wordnet import WordNetLemmatizer
 from nltk.corpus import stopwords
 
 
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+
 # Import Data
 df = pd.read_csv('data/articles.csv', index_col='index')
 
 
-df=df.sort_values("index")
+df.date = pd.to_datetime(df.date)
 
 
-df.head(50)
+df.tail()
+
+
+word_count = sum(df["words"])
+art_count = len(df["title"])
+#print(df.date[-1:] - df.date[1])
+print("Maria Popova has published " + str(word_count) + " words & " + str(art_count) + " articlesget_ipython().getoutput("")")
+print("The average article length is " + str(int(word_count/art_count)) + " words.")
+print("The articles span " + str(round(4959/365.25, 1)) + " years.")
+print("Over that time, she has published an article every " + str(round(4959*24/art_count)) + " hoursget_ipython().getoutput("")")
+
+
+#Outlander
+283910 + 338430 + 380770 + 390050 + 482850 + 502860 + 400055 + 391500
+
+
+words = dict(Bible=783000, Proust=1270000, Martin=1740000, Gabaldon=3170000, Popova=5080000)
+ax =sns.barplot(x=list(words.keys()), y=list(words.values()), palette="mako")
+ax.set(ylabel='total words (millions)');
+
+
+year_counts = df.date.groupby(df.date.dt.year).agg("count")
+
+
+ax = sns.barplot(x=year_counts.index, y=year_counts.values, color="yellow")
+ax.set(xlabel='year', ylabel='articles published')
+plt.xticks(rotation=34);
 
 
 # Create Documents
-documents = df['content'][:100] #first 100
+documents = df['content'][:100] #first 
 
 
-documents
+documents[33]
 
 
 # Set Stop Words
