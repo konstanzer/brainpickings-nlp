@@ -1,6 +1,5 @@
 #Brainpickings.org project
-data/
-NLP/
+pages/
 misc/
 .DS_Store
 .virtual_documents/
