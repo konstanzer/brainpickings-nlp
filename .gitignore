@@ -3,6 +3,7 @@ data/
 NLP/
 misc/
 .DS_Store
+.virtual_documents/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
