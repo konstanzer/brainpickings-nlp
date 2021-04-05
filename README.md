@@ -1,15 +1,15 @@
-<a href="https://baseballsavant.mlb.com/statcast_search">
-	<img src="/img/mcghee.png" alt="brainpickings logo" title="BrainPickings" align="right" width="200"/>
+<a href="https://brainpickings.org">
+	<img src="/img/logo.png" alt="brainpickings logo" title="BrainPickings" align="right" width="200"/>
 </a>
 
-"A museum of my mind": A Natural Language Processing analysis of BrainPickings.org
+"A museum of my mind": A Natural Language Processing perspective of BrainPickings.org
 ======================
 
 "One of the great cruelties and great glories of creative work is the wild discrepancy of timelines between vision and execution. When we dream up a project, we invariably underestimate the amount of time and effort required to make it a reality. Rather than a cognitive bug, perhaps this is the supreme coping mechanism of the creative mind — if we could see clearly the toil ahead at the outset of any creative endeavor, we might be too dispirited to begin, too reluctant to gamble between the heroic and the foolish, too paralyzed to walk the long and tenuous tightrope of hope and fear by which any worthwhile destination is reached." -Maria Popova
 
 ## Contents
-- [Overview](#Overview)
-- [Visualizations](#Visualizations)
+- [Overview](#overview)
+- [The Posts](#the-posts)
 - [Hypotheses and Method](#Hypotheses-and-Method)
 - [Results](#Results)
 - [Acknowledgements](#Acknowledgements)
@@ -18,13 +18,13 @@ ___
 
 ## Overview
 
-Began in 2007, Brain Pickings has grown into one of the most popular blogs worldwide in a very competitive space. It has millions of unique readers per month and both Tim Ferriss and James Altucher, popular authors and bloggers in their own right, say Brain Pickings is the only blog they read regularly. Given the amount of thoroughly-researched content on Brain Pickings, one would reasonably assume that a staff of writers is behind it. In fact, Maria Popova is the sole author of every article on the blog and she maintains her site without a single advertisement, relying, as Wikipedia does, on reader donations.
+Began in 2007, Brain Pickings has grown into one of the most popular blogs worldwide in a very competitive space. With diverse topics including art, literature, science, and philosophy, the blog has been described as a "museum of the world" and a "treasure trove." It has millions of unique readers per month and both Tim Ferriss and James Altucher, popular authors and bloggers in their own right, say Brain Pickings is the only blog they read regularly. Given the amount of thoroughly-researched content on Brain Pickings, one would reasonably assume that a staff of writers is behind it. In fact, Maria Popova is the sole author of every article on the blog and she maintains her site without a single advertisement, relying, as Wikipedia does, on donations.
 
-As of March 2021, Brain Pickings has amassed 5,700 articles totaling over 5 million words. To put this accomplishment in perspective, Ms. Popova has published a 1,000+ word article every 21 hours ... for 13.5 years. This project gave me the opportunity to dive into the evolving themes of Brain Pickings based on frequently occuring words and phrases throughout the corpus.
+As of March 2021, Brain Pickings has amassed 5,700 articles totaling over 5 million words. To put this accomplishment in perspective, Ms. Popova has published a 1,000+ word article every 21 hours...for 13.5 years! This project gave me the opportunity to dive into the evolving themes of Brain Pickings based on frequently occurring words and phrases throughout the body of work.
 
 ___
 
-## Visualizations
+## The Posts
 
 **Stacked bar chart of pitch frequencies in 2020**
 
