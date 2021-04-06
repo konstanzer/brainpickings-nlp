@@ -43,18 +43,18 @@ By way of summary, I observe an increase in ouput to multiple postings per day a
 
 Word output peaked in 2014 |  Post-frequency picked up in 2011
 :-------------------------:|:-------------------------:
-<img alt="" src="img/words.png" width='400'>   |  <img alt="" src="img/posts.png" width='400'>
+<img alt="" src="img/words.png" width='1000' height='250'>   |  <img alt="" src="img/posts.png" width='1000' height='250'>
 
 **Thematic trends**
 
 For these graph, I omitted the "culture" and "books" tags as they showed up in a vast majority of posts, dwarfing the relative differences between lesser used but more informational tags. Based only on these tags, one would assume the blog is about culture and books, and while this is true, the actual topics Ms. Popova covers in this "museum of the mind" are far more diverse. The changes I identify in between her early to late periods are from sensory- to textual-based topics, or seen another way, from right-brain to left-brain if I may make a neurological inference. Design, cinema, and music morph to philosophy, poetry, and letters.
 
-Popular tags (2007-mid 2014) |  Popular tags (mid 2014-April 2021)
+Popular tags (2007-mid 2014) |  Popular tags (mid 2014-2021)
 :---------------------------:|:-------------------------:
-<img alt="" src="img/early_tags.png" width='800' height='400'>   |  <img alt="" src="img/late_tags.png" width='800' height='400'>
+<img alt="" src="img/early_tags.png" width='1000' height='250'>   |  <img alt="" src="img/late_tags.png" width='1000' height='250'>
 
 <p align="center">
-	<img alt="" src="/img/venn.png" width='500'> 
+	<img alt="" src="/img/venn_di.png" width='400'> 
 </p>
 
 Ms. Popova expressed an interest in three particular categories, love, poetry, and science, in a single email exchange at the outset of this project. In corcordance with this interest, I generated a plot showing the relative frequency of these tags over time. Most evident is an increasing interest in poetry.
@@ -74,10 +74,10 @@ I built a classification model that would predict whether an article was from Ms
 |                   | Early class  | Late class  |
 |-------------------|--------------|-------------|
 | years             | 2007-2013    | 2015-2021   |
-| article count     | 3,069        | 1,927       |
+| article count     | 3,069        | 1,931       |
 | word count        | 1.94 million | 2.29 million|
 
-While I have published true article counts here, I balanced the classes at 1,927 before modeling. I originally accomplished this with SMOTE (synthetic minority oversampling) of the late class. However, after further research, I chose to simply drop articles from the early class of the shortest length until the classes were even. This decision was based on the preponderance of very short articles in the early class versus the late class, the shortness of which would provide fewer key words to classify the text. In practice, this resulted in dropping 1,172 articles of under 290 words. Below is a histogram of word counts across all articles, evidently a gamma distribution.
+While I have published true article counts here, I balanced the classes at 1,927 before modeling. I originally accomplished this with SMOTE (synthetic minority oversampling) of the late class. However, after further research, I chose to simply drop articles from the early class of the shortest length until the classes were even. This decision was based on the preponderance of very short articles in the early class versus the late class, the shortness of which would provide fewer key words to classify the text. In practice, this resulted in dropping 1,168 articles of under 290 words. Below is a histogram of word counts across all articles, evidently some kind of gamma distribution.
 
 <p align="center">
 	<img alt="" src="/img/wordcount.png" width='1200'> 
@@ -89,7 +89,7 @@ Astute obsevers will notice the omission of 2014 posts. This decision was made a
 	<img alt="" src="/img/logiterrorswith2014.png" width='500'> 
 </p>
 
-#### Train-test split
+### Train-test split
 
 With the data now labeled "early" or "late," I used an 80/20 split to divide the documents into training and testing data. 
 
@@ -99,11 +99,20 @@ The `sklearn.feature_extraction` module provides a way to transform raw text doc
 
 #### Document frequency parameters
 
-Having already identified broad themes with tags, I wanted to extract phrases, or n-grams, as a means of interpreting the documents. With a tf-idf vectorizer set to use bigrams (two-word phrases), I tuned the required document frequency of words using 5-fold cross-validation on a random forest classification model. My final parameters for this step were a minimum document frequency (min_df) of 2.5 percent and a maximum (max_df) of 25 percent.
+Having already identified broad themes with tags, I wanted to extract phrases, or n-grams, as a means of interpreting the documents. With a tf-idf vectorizer set to use bigrams (two-word phrases), I tuned the required document frequency of words using 5-fold cross-validation on a random forest classification model. My final parameters for this step were a minimum document frequency (`min_df`) of 2 percent and a maximum (`max_df`) of 10 percent. This model maintained a 93 percent classification accuracy with 3,500 features (out of an initial 973,0000 bigrams.)
 
-#### Stop words
+#### Stop words and maximum features
 
-Guessing the date of a blog post is absurd and a tool to reattach lost dates to posts is of use to no one. With this in mind, my aim was feature interpretability. Thus, adding stop words was a process of repeatedly breaking a good model in order to simplify it. I honed in on proper names and identifiable categories during this process and removed uninterpretable phrases such as "make sense" and "half century" that classified well but provided no insight. I whittled my initial list of 168 bigrams to 68.
+Guessing the date of a blog post is absurd and a tool to reattach lost dates to posts is of use to no one. With this in mind, my aim was feature interpretability. Thus, adding stop words to the standard NLTK list was a process of repeatedly breaking a good model in order to simplify it. I honed in on proper names and unique phrases during this process whilst removing uninterpretable phrases such as "make sense" and "half century" that classified well but provided little insight. I whittled my initial list of 295 bigrams (with 88 percent accuracy using basic stop words) to 35 with a custom stop word list and the `max_feature` parameter. This very simple model had a cross-validation accuracy of 82 percent - decent not great. The final feature set ranked by average information gain across all weak learners is displayed below. 
+
+<img alt="" src="/img/ginibigrams.png" width='1000'> 
+
+### Test set results
+
+The final test set accuracy was 90 percent. I attribute this rise in accuracy over the cross-validation score to the fact that I did not artifically suppress phrases I deemed worthless, although total features were still capped at 35. As the confusion matrix shows, there is a discrepancy between recall (95 percent) and precision (86 percent) and this result is explored in the following partial dependence plots.
+
+<img alt="" src="/img/matrixRF.png" width='350'> 
+
 
 ### Insights from a single decision tree
 
@@ -111,11 +120,6 @@ Guessing the date of a blog post is absurd and a tool to reattach lost dates to 
 <img alt="" src="/img/impurity.png" width='500'> 
 <img alt="" src="/img/depth.png" width='400'> 
 
-### Growing a forest
-
-<img alt="" src="/img/ginibigrams.png" width='1000'> 
-<img alt="" src="/img/finalRF.png" width='350'> 
-      
 ___
 
    
