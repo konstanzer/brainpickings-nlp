@@ -34,6 +34,7 @@ Brainpickings.org is conveniently organized in chronological fashion, with most 
 <p align="center">
 	<img alt="" src="img/techslide.png" width='700'>
 </p>
+
 ___
 
 ## The Posts
@@ -66,7 +67,7 @@ ___
 
 ## Building a classifier
 
-I decided to build a classification model that would predict whether an article was from Ms. Popova's early or late era, defined here as 2007-2013 and 2015-2021. These dates coincide nicely with her twenties and thirties respectively. I hoped to capture some of what defines these epochs in terms of creative and intellectual development. 
+I built a classification model that would predict whether an article was from Ms. Popova's early or late era, defined here as 2007-2013 and 2015-2021. These dates coincide nicely with her twenties and thirties respectively. I hoped to capture some of what defines these epochs in terms of creative and intellectual development. 
 
 ### Dividing the classes
 
@@ -88,14 +89,21 @@ Astute obsevers will notice the omission of 2014 posts. This decision was made a
 	<img alt="" src="/img/logiterrorswith2014.png" width='500'> 
 </p>
 
+#### Train-test split
+
+With the data now labeled "early" or "late," I used an 80/20 split to divide the documents into training and testing data. 
+
 ### Creating the feature matrix
 
-The `sklearn.feature_extraction` module provides a way to transform raw text documents into a numerical feature matrix suitable for machine learning algorithms. The Tf-idf (term frequency-inverse document frequency) vectorizer used here first a
+The `sklearn.feature_extraction` module provides a way to transform raw text documents into a numerical feature matrix suitable for machine learning algorithms. Vectorizing a text document requires tokenization, counting, and normalizing. Tf-idf (term frequency-inverse document frequency) is a term weighting scheme used to accomplish this feat. For each document (matrix row), the tf-idf vectorizer outputs a floating point for each feature (matrix column) that rewards both a high *intra*-document freqeuncy and a low *inter*-document frequency. In other words, the words most informative with regards to content receive the highest value. Significantly, this approach to language processing ignores semantic similarities.
 
 #### Document frequency parameters
 
+Having already identified broad themes with tags, I wanted to extract phrases, or n-grams, as a means of interpreting the documents. With a tf-idf vectorizer set to use bigrams (two-word phrases), I tuned the required document frequency of words using 5-fold cross-validation on a random forest classification model. My final parameters for this step were a minimum document frequency (min_df) of 2.5 percent and a maximum (max_df) of 25 percent.
+
 #### Stop words
 
+Guessing the date of a blog post is absurd and a tool to reattach lost dates to posts is of use to no one. With this in mind, my aim was feature interpretability. Thus, adding stop words was a process of repeatedly breaking a good model in order to simplify it. I honed in on proper names and identifiable categories during this process and removed uninterpretable phrases such as "make sense" and "half century" that classified well but provided no insight. I whittled my initial list of 168 bigrams to 68.
 
 ### Insights from a single decision tree
 
