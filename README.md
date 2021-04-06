@@ -31,8 +31,9 @@ ___
 
 Brainpickings.org is conveniently organized in chronological fashion, with most recent posts appearing on page 1 and the oldest posts appearing on the last page, numbered 1426 at time of writing. This fact made acquiring the data for the following steps via Requests relatively straightforward. From there, a search of the articles' HTML revealed the specific header below which each post is recorded. I parsed this data, including title, date, subtitle, and the articles themselves, with the help of BeautifulSoup. Finally, I added a word count function before saving the data in a .csv file.
 
-<img alt="" src="img/techslide.png" width='700'>
-
+<p align="center">
+	<img alt="" src="img/techslide.png" width='700'>
+</p>
 ___
 
 ## The Posts
@@ -51,11 +52,15 @@ Popular tags (2007-mid 2014) |  Popular tags (mid 2014-April 2021)
 :---------------------------:|:-------------------------:
 <img alt="" src="img/early_tags.png" width='800' height='400'>   |  <img alt="" src="img/late_tags.png" width='800' height='400'>
 
-<img alt="" src="/img/venn.png" width='500'> 
+<p align="center">
+	<img alt="" src="/img/venn.png" width='500'> 
+</p>
 
 Ms. Popova expressed an interest in three particular categories, love, poetry, and science, in a single email exchange at the outset of this project. In corcordance with this interest, I generated a plot showing the relative frequency of these tags over time. Most evident is an increasing interest in poetry.
 
-<img alt="" src="/img/lovepoetsci.png" width='800'> 
+<p align="center">
+	<img alt="" src="/img/lovepoetsci.png" width='800'> 
+</p>
 
 ___
 
@@ -73,11 +78,15 @@ I decided to build a classification model that would predict whether an article 
 
 While I have published true article counts here, I balanced the classes at 1,927 before modeling. I originally accomplished this with SMOTE (synthetic minority oversampling) of the late class. However, after further research, I chose to simply drop articles from the early class of the shortest length until the classes were even. This decision was based on the preponderance of very short articles in the early class versus the late class, the shortness of which would provide fewer key words to classify the text. In practice, this resulted in dropping 1,172 articles of under 290 words. Below is a histogram of word counts across all articles, evidently a gamma distribution.
 
-<img alt="" src="/img/wordcount.png" width='1200'> 
+<p align="center">
+	<img alt="" src="/img/wordcount.png" width='1200'> 
+</p>
 
 Astute obsevers will notice the omission of 2014 posts. This decision was made after an initial logit model showed half of all errors occurring in this dividing year. It makes sense that a classification model would have the most trouble distinguishing articles published closest together. Style is only binary to literary critics. Although 2014 was Ms. Popova's most productive year as a writer in terms of word count, I excluded it from the further models in order to increase class contarst and make a stronger classifier.
 
-<img alt="" src="/img/logiterrorswith2014.png" width='500'> 
+<p align="center">
+	<img alt="" src="/img/logiterrorswith2014.png" width='500'> 
+</p>
 
 ### Creating the feature matrix
 
