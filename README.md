@@ -32,7 +32,7 @@ ___
 Brainpickings.org is conveniently organized in chronological fashion, with most recent posts appearing on page 1 and the oldest posts appearing on the last page, numbered 1426 at time of writing. This fact made acquiring the data for the following steps via Requests relatively straightforward. From there, a search of the articles' HTML revealed the specific header below which each post is recorded. I parsed this data, including title, date, subtitle, and the articles themselves, with the help of BeautifulSoup. Finally, I added a word count function before saving the data in a .csv file.
 
 <p align="center">
-	<img alt="" src="img/techslide.png" width='700'>
+	<img alt="" src="img/techside.png" width='700'>
 </p>
 ___
 
