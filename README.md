@@ -21,16 +21,19 @@ ___
 
 Began in 2007, Brain Pickings has grown into one of the most popular blogs worldwide in a very competitive space. With diverse topics including art, literature, science, and philosophy, the blog has been described as a "museum of the world" and a "treasure trove." It has millions of unique readers per month and both Tim Ferriss and James Altucher, popular authors and bloggers in their own right, say Brain Pickings is the only blog they read regularly. Given the amount of thoroughly-researched content on Brain Pickings, one would reasonably assume that a staff of writers is behind it. In fact, Maria Popova is the sole author of every article on the blog and she maintains her site without a single advertisement, relying, as Wikipedia does, on donations.
 
+Ms. Popova defined herself as a "spiritual embryo" at the outset of her blog. She also began reading seriously at this time, which can be seen as  an increasing breadth of refrences as the articles progress. One rarely encounters a personal comment in her writing. Rather she prefers to share her private exploration in the form of literary criticism, historical abstracts, and scientific inquiries. 
+
 As of April 2021, Brain Pickings has amassed 5,700 articles totaling over 5 million words. To put this accomplishment in perspective, Ms. Popova has published a 900+ word article every 21 hours...for 13.5 years. This project gave me the opportunity to dive into the evolving themes of Brain Pickings based on frequently occurring words and phrases throughout the body of work.
 ___
 
 ## The Site
+
 Brainpickings.org is conveniently organized in chronological fashion, with most recent posts appearing on page 1 and the oldest posts appearing on the last page, numbered 1426 at time of writing. This fact made acquiring the data for the following steps via Requests relatively straightforward. From there, a search of the articles' HTML revealed the header below which each post is recorded. I parsed this data, including title, date, subtitle, and the articles themselves, with the help of BeautifulSoup. Finally, I added a word count function before saving the data in a .csv file.
 ___
 
 ## The Posts
 
-By way of summary,
+By way of summary, I observe an increase in ouput to muliplte postings per day as the blog gained popularity. Frequency has tapered off to a mere mortal rate of every-other-day in recent years.
 
 Word output peaked in 2014 |  Post-frequency increased in 2011
 :-------------------------:|:-------------------------:
@@ -46,16 +49,27 @@ Popular tags (2007-mid 2014) |  Popular tags (mid 2014-April 2021)
 
 In reply to direct communication with Ms. Popova, I generated this plot showing the trends of three tags in particular. Most evident is an increasing interest in poetry.
 
-<img alt="" src="/img/lovepoetsci.png" width='800'> 
+<img alt="" src="/img/lovepoetsci.png" width='650'> 
 
 ___
 
-## Hypotheses and Method
+## The Model
 
-In this section, I describe the results of three hypotheses tests perfored with the `ttests.py` script. The tests examine four pitches thrown by each pitcher (fastballs, sliders, changeups, and curveballs) and four measurments for each of those pitches (release speed, release spin rate, late horizontal movement, and late vertical movement,) In all cases, I use a Welch's t-test; some of the sample sizes are uneven. Thos is due to the fact that Cole favors curveballs and deGrom favors changeups. In order to perform a Welch's t-test, I use `scipy.stats.ttest_ind`.
+I decided to build a classification model that would predict whether an article was from Ms. Popova's early or late era, defined here as 2007-2013 and 2015-2021. These dates coincide nicely with her twenties and thirties respectively. I hoped to capture some of what defines these epochs in terms of creative and intellectual development. 
 
-`result = scs.ttest_ind(df_cole[df_cole.pitch_type==pitch][stat], df_degrom[df_degrom.pitch_type==pitch][stat], equal_var=False)`
+### The Classes
 
+|                   | Early class  | Late class  |
+|-------------------|--------------|-------------|
+| dates             | 2007-2013   | 2015-2021   |
+| article count     | 3,192       | 1,927       |
+| word count        | 1.94 million | 2.25 million|
+
+While I have published actual article counts here, I balanced the classes at 1,927. I originally accomplished this with SMOTE (synthetic minority oversampling) of the late class. However, after further research, I chose to simply drop articles from the early class of the shortest length until the classes were even. This decision was based on the preponderance of very short articles in the early class versus the late class, the shortness of which would make it hard to draw any general conclusion about the theme of the text. In practice, this resulted in dropping over a thousand articles of under 300 words.
+
+Astute obsevers will notice the omission of 2014 posts. This decision was made after running an initial logistic regression model with 2014 and observing half of all errors occurring in this dividing year. It makes sense that the model would have the most trouble distinguishing articles published closest together. Although, this was Ms. Popova's most productive year as a writer based on word count, I excluded these posts from the dataset as well in order to make a stronger classifier.
+
+<img alt="" src="/img/logiterrorswith2014.png" width='600'> 
 
 ### Hypothesis the first: FF + release_speed
 
@@ -72,27 +86,18 @@ In this section, I describe the results of three hypotheses tests perfored with 
 ___
 
    
-## Results
+## The Results
 
 Continuing in this way with through each of rhe four pitches thrown by Jacob deGrom and Gerrit Cole in 2020 (faastball, slider, curveball, and changeup) for each of the four meaurements in my DataFrame, I was able to draw the following conclusions. In all tests, I use a Bonferonni correction of 4 to account for the fact that I am comparing multiple means of pitch measurements. Therefore, my signficance for each individual test is 𝛼=0.05/4 = 0.0125.
 
 ### Fastball
 
 #### Total observations:
-* Gerrit Cole: 635
-* Jacob deGrom: 510
-
-| Measurement       | p-value | 𝜇Cole     | 𝜇deGrom   | RTN |
-|-------------------|---------|-----------|-----------|-----|
-| release speed     | 4e-136  | 96.7      | **98.6**  | Y   |
-| release spin rate | 0.0001  | **2505**  | 2477      | Y   |
-| lateral movement  | 5e-282  | **-1.01** | -0.58     | Y   |
-| vertical movement | 4e-35   | **1.49**  | 1.39      | Y   |
 
 ___
 
 	
 ## Acknowledgements
-* Maria Popova, without whose disciplined habits and willingness to share her work, readers like myself would be deprived of an incredible resource of wisdom and erudition.
+* Maria Popova, without whose discipline, erudition, and wisdom, readers like myself would be deprived of her work.
 * Dan Rupp, data science instructor at Galvanize Austin, for his excellent suggestions regarding the selection of the feature space and interpretation of the model results and Dr. Juliana Duncan, lead data science instructor at Galvanize Austin, for her leading questions and conceptual help with statistical topics.
 
