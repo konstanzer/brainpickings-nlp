@@ -25,31 +25,26 @@ As of April 2021, Brain Pickings has amassed 5,700 articles totaling over 5 mill
 ___
 
 ## The Site
-Brainpickings.org is conveniently organized in chronological fashion, with most recent posts appearing on page 1 and the oldest posts appearing on the last page, numbered 1426 at time of writing. This fact made acquiring the data for the following steps via Requests relatively straightforward. From there, a search of the articles' HTML revealed the header below which posts are recorded. I parsed this data, including title, date, subtitle, and the articles themselves, with the help of BeautifulSoup. Finally, I added a word count function before saving the data in a .csv file.
+Brainpickings.org is conveniently organized in chronological fashion, with most recent posts appearing on page 1 and the oldest posts appearing on the last page, numbered 1426 at time of writing. This fact made acquiring the data for the following steps via Requests relatively straightforward. From there, a search of the articles' HTML revealed the header below which each post is recorded. I parsed this data, including title, date, subtitle, and the articles themselves, with the help of BeautifulSoup. Finally, I added a word count function before saving the data in a .csv file.
 ___
 
 ## The Posts
 
-By way of summary.
+By way of summary,
 
 Word output peaked in 2014 |  Post-frequency increased in 2011
 :-------------------------:|:-------------------------:
 <img alt="" src="img/words.png" width='400'>   |  <img alt="" src="img/posts.png" width='400'>
 
-For this graph, I removed the "culture" tag as it showed up in an overwhelming majority of posts. Based only on tags, one would assume the blog is usually about culture and books.
-
-<img alt="" src="/img/tags.png" width='400'> 
-
-
 **Thematic trends**
 
-For these graphs I did remove the "books" tag to show lesser-used tags in greater detail. The same statement applies, that is, in both periods, culture and books are the most used tags.
+For these graph, I omitted "culture" and "books" tag as they showed up in a majority of posts. Based only on tags, one would assume the blog is usually about culture and books, and while this is true, the actual topics Ms. Popova covers in this "museum of the mind" are far more diverse. The primary shifts I identify are from design, history, cinema/film, and music to philosophy, science, poetry, and letters.
 
 Popular tags (2007-mid 2014) |  Popular tags (mid 2014-April 2021)
 :-------------------------:|:-------------------------:
 <img alt="" src="img/early_tags.png" width='800'>   |  <img alt="" src="img/late_tags.png" width='800'>
 
-In reply to direct communication with Ms. Popva, I generated this plot showing the trends of three tags in particular. Most evident is an increasing interest in poetry.
+In reply to direct communication with Ms. Popova, I generated this plot showing the trends of three tags in particular. Most evident is an increasing interest in poetry.
 
 <img alt="" src="/img/lovepoetsci.png" width='800'> 
 
