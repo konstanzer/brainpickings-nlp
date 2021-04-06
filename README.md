@@ -65,37 +65,31 @@ I decided to build a classification model that would predict whether an article 
 | article count     | 3,192       | 1,927       |
 | word count        | 1.94 million | 2.25 million|
 
-While I have published actual article counts here, I balanced the classes at 1,927. I originally accomplished this with SMOTE (synthetic minority oversampling) of the late class. However, after further research, I chose to simply drop articles from the early class of the shortest length until the classes were even. This decision was based on the preponderance of very short articles in the early class versus the late class, the shortness of which would make it hard to draw any general conclusion about the theme of the text. In practice, this resulted in dropping over a thousand articles of under 300 words.
+While I have published actual article counts here, I balanced the classes at 1,927. I originally accomplished this with SMOTE (synthetic minority oversampling) of the late class. However, after further research, I chose to simply drop articles from the early class of the shortest length until the classes were even. This decision was based on the preponderance of very short articles in the early class versus the late class, the shortness of which would provide fewer key words to classify the text. In practice, this resulted in dropping over a thousand articles of under 290 words.
+
+<img alt="" src="/img/wordcount.png" width='1000'> 
 
 Astute obsevers will notice the omission of 2014 posts. This decision was made after running an initial logistic regression model with 2014 and observing half of all errors occurring in this dividing year. It makes sense that the model would have the most trouble distinguishing articles published closest together. Although, this was Ms. Popova's most productive year as a writer based on word count, I excluded these posts from the dataset as well in order to make a stronger classifier.
 
-<img alt="" src="/img/logiterrorswith2014.png" width='600'> 
+<img alt="" src="/img/logiterrorswith2014.png" width='500'> 
 
-### Hypothesis the first: FF + release_speed
+<img alt="" src="/img/ginibigrams.png" width='500'> 
+<img alt="" src="/img/tagtreefull.png" width='500'> 
 
-**Scientific Question**
-    
-   Are the the mean fastball release speeds between Jacob deGrom and Gerrit Cole the same?
-
-**Conclusion**
-
-   We have a p-value and need to compare it to our significance level of 0.0125. The p-value (the probability of seeing this result or a result more extreme given the null hypothesis) is far less than the significance level. Therefore, my conclusion is:
-   
-   I **reject the null** hypothesis that the release speed means are the same.
-   
+<img alt="" src="/img/impurity.png" width='500'> 
+<img alt="" src="/img/depth.png" width='500'> 
+<img alt="" src="/img/finalRF.png" width='250'> 
+      
 ___
 
    
 ## The Results
 
-Continuing in this way with through each of rhe four pitches thrown by Jacob deGrom and Gerrit Cole in 2020 (faastball, slider, curveball, and changeup) for each of the four meaurements in my DataFrame, I was able to draw the following conclusions. In all tests, I use a Bonferonni correction of 4 to account for the fact that I am comparing multiple means of pitch measurements. Therefore, my signficance for each individual test is 𝛼=0.05/4 = 0.0125.
-
-### Fastball
-
-#### Total observations:
-
+<img alt="" src="/img/pdps.png" width='500'> 
+<img alt="" src="/img/pdp2d.png" width='500'> 
+<img alt="" src="/img/pdp2d2.png" width='500'> 
+<img alt="" src="/img/pdp2d3.png" width='500'> 
 ___
-
 	
 ## Acknowledgements
 * Maria Popova, without whose discipline, erudition, and wisdom, readers like myself would be deprived of her work.
