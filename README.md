@@ -99,13 +99,13 @@ The `sklearn.feature_extraction` module provides a way to transform raw text doc
 
 #### Document frequency parameters
 
-Having already identified broad themes with tags, I wanted to extract phrases, or n-grams, as a means of interpreting the documents. With a tf-idf vectorizer set to use bigrams (two-word phrases), I tuned the required document frequency of words using 5-fold cross-validation on a random forest classification model. My final parameters for this step were a minimum document frequency (`min_df`) of 2 percent and a maximum (`max_df`) of 10 percent. This model maintained a 93 percent classification accuracy with 3,500 features (out of an initial 973,0000 bigrams.)
+Having already identified broad themes with tags, I wanted to extract phrases, or *n-grams*, as a means of interpreting the documents. With a tf-idf vectorizer set to use bigrams (two-word phrases), I tuned the required document frequency of words using 5-fold cross-validation on a random forest classification model. My final parameters for this step were a minimum document frequency (`min_df`) of 1 percent and a maximum (`max_df`) of 10 percent. This model maintained a 93 percent classification accuracy with 3,500 features (out of an initial 973,0000 bigrams.)
 
 #### Stop words and maximum features
 
 Guessing the date of a blog post is absurd and a tool to reattach lost dates to posts is of use to no one. With this in mind, my aim was feature interpretability. Thus, adding stop words to the standard NLTK list was a process of repeatedly breaking a good model in order to simplify it. I honed in on proper names and unique phrases during this process whilst removing uninterpretable phrases such as "make sense" and "half century" that classified well but provided little insight. I whittled my initial list of 295 bigrams (with 88 percent accuracy using basic stop words) to 35 with a custom stop word list and the `max_feature` parameter. This very simple model had a cross-validation accuracy of 82 percent - decent not great. The final feature set ranked by average information gain across all weak learners is displayed below. 
 
-<img alt="" src="/img/ginibigrams.png" width='1000'> 
+<img alt="" src="/img/ginibigrams.png" width='600'> 
 
 ### Test set results
 
