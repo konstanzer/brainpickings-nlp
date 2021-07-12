@@ -136,5 +136,5 @@ ___
 
 * Maria Popova, without whose discipline, erudition, and wisdom, readers like myself would be deprived of a unique and valuable resource.
 
-* Dan Rupp, data science instructor at Galvanize Austin, for his excellent suggestions regarding the selection of the feature space and interpretation of the classification model and Dr. Juliana Duncan, lead data science instructor at Galvanize Austin, for her leading questions and conceptual help with statistical topics.
+* Dan Rupp for suggestions regarding the selection of the feature space and interpretation of the classification model and Juliana Duncan for her leading questions and conceptual help with statistical topics.
 
